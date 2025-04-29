@@ -173,12 +173,12 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3 input-group">
                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-                    <div class="invalid-feedback">Please use one of: gmail.com, yahoo.com, outlook.com, icloud.com, hotmail.com.</div>
+                    <div style="margin-left: 50px;" class="invalid-feedback">Please use one of: gmail.com, yahoo.com, outlook.com, icloud.com, hotmail.com.</div>
                 </div>
                 <div class="mb-3 input-group">
                     <span class="input-group-text"><i class="fa fa-phone"></i></span>
                     <input type="tel" name="phone" id="phone" class="form-control" placeholder="Phone Number" required pattern="01[3-9][0-9]{8}">
-                    <div class="invalid-feedback">Enter a valid Bangladeshi number: 01XXXXXXXXX.</div>
+                    <div style="margin-left: 50px;" class="invalid-feedback">Enter a valid Bangladeshi number: 01(3-9)XXXXXXXX.</div>
                 </div>
                 <div class="mb-3 input-group">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
