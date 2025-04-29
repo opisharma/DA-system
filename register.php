@@ -1,5 +1,4 @@
 <?php
-// register.php
 include("database/config.php");
 
 if (isset($_POST['submit'])) {
@@ -9,10 +8,9 @@ if (isset($_POST['submit'])) {
     $age      = (int) $_POST['age'];
     $password = $_POST['password'];
 
-    // ——— SERVER-SIDE EMAIL DOMAIN VALIDATION ———
+    //mail validation
     $allowed = [
-        'gmail.com','yahoo.com','outlook.com','icloud.com',
-        'aol.com','protonmail.com','zoho.com','hotmail.com'
+        'gmail.com','yahoo.com','outlook.com','icloud.com','hotmail.com'
     ];
     $domain = strtolower(substr(strrchr($email, "@"), 1));
     if (!in_array($domain, $allowed)) {
@@ -28,10 +26,7 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    // ——— SERVER-SIDE PHONE VALIDATION ———
-    // 1) starts with 01
-    // 2) third digit 3-9
-    // 3) followed by 8 digits 0-9
+    //phone number validation
     if (!preg_match('/^01[3-9][0-9]{8}$/', $phone)) {
         echo "<div class='alert alert-danger text-center'>
                 Please enter a valid Bangladeshi phone number (e.g., 013XXXXXXXX).
@@ -61,10 +56,10 @@ if (isset($_POST['submit'])) {
               </div>";
     }
     else {
-        // ——— HASH PASSWORD ———
+        // HASH PASSWORD 
         $hash = password_hash($password, PASSWORD_BCRYPT);
 
-        // ——— INSERT NEW USER ———
+        //  INSERT NEW USER
         $u  = mysqli_real_escape_string($con, $username);
         $p  = mysqli_real_escape_string($con, $phone);
         $h  = mysqli_real_escape_string($con, $hash);
@@ -96,9 +91,7 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS (optional) -->
     <link rel="stylesheet" href="style/regStyle.css">
 </head>
 
@@ -123,8 +116,7 @@ else {
                         required>
                     <div class="invalid-feedback">
                         Please use one of these domains:
-                        gmail.com, yahoo.com, outlook.com, icloud.com,
-                        aol.com, protonmail.com, zoho.com, hotmail.com.
+                        gmail.com, yahoo.com, outlook.com, icloud.com, hotmail.com.
                     </div>
                 </div>
 
@@ -174,8 +166,7 @@ else {
             const phone = document.getElementById('phone');
             const submitBtn = document.getElementById('submitBtn');
             const allowed = [
-                'gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com',
-                'aol.com', 'protonmail.com', 'zoho.com', 'hotmail.com'
+                'gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com', 'hotmail.com'
             ];
 
             function getDomain(address) {
