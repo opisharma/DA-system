@@ -177,10 +177,10 @@ if (isset($_POST['submit'])) {
 </body>
 </html> -->
 
+<!-- new design starts-->
 
-<?php
-// Placeholder Login Page with upcoming functionality notice
-session_start();
+<!-- <?php
+// session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -188,63 +188,246 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Coming Soon</title>
+    <title>Login - MediBook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-            height: 100vh;
+        }
+        body {
             margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        .main-container {
             display: flex;
+            min-height: 100vh;
+        }
+        .form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            padding: 60px 40px;
+            background-color: #fff;
         }
-        .card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 2rem;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-        .card header {
-            font-size: 1.75rem;
-            color: #fff;
+        .form-container h2 {
             font-weight: 600;
-            margin-bottom: 1.5rem;
         }
-        .message {
-            color: #fff;
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
+        .form-container p {
+            color: #6c757d;
         }
-        .btn-notice {
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+        .form-container button {
+            background-color: #1e2a38;
+            color: white;
+            padding: 12px;
             border: none;
-            color: #fff;
+            border-radius: 8px;
+            font-weight: 600;
             transition: background 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #2f3f52;
+        }
+        .info-panel {
+            flex: 1;
+            background-color: #1e2a38;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 40px;
+        }
+        .info-panel h2 {
+            font-weight: 600;
+            font-size: 1.75rem;
+        }
+        .info-panel p {
+            color: #cbd5e1;
+            margin-top: 1rem;
+        }
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .form-footer a {
+            color: #0d6efd;
             text-decoration: none;
         }
-        .btn-notice:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-            color: #fff;
+        .form-footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <header>Login</header>
-        <div class="message">Rest of functionality will be implemented soon 🚧</div>
-        <a href="register.php" class="btn-notice">Go to Sign Up</a>
+    <div class="main-container">
+        <!-- Left form section -->
+        <!-- <div class="form-container">
+            <h2>Welcome Back</h2>
+            <p>Please login to your account</p>
+            <form action="login_process.php" method="POST">
+                <div class="mb-3 mt-4">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-4">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="w-100">Sign In</button>
+            </form>
+            <div class="form-footer">
+                Don't have an account? <a href="register.php">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Right info panel -->
+        <!-- <div class="info-panel">
+            <h2>Welcome To MediBook! Join Now For Easy Doctor Appointments</h2>
+            <p>
+                Find and book appointments with the best doctors in your area. 
+                Manage your health records and get reminders for upcoming consultations.
+            </p>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> --> --> -->
+
+
+<!-- new design ends -->
+<?php
+// Placeholder Login Page with upcoming functionality notice
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f5f7fa;
+    }
+    .main {
+      display: flex;
+      min-height: 100vh;
+    }
+    .left-panel {
+      flex: 1;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .card h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .card .message {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .btn-notice {
+    display: block;              /* full width */
+    width: 100%;
+    padding: 0.75rem;            /* vertical padding */
+    background-color: #1e2a38;   /* dark navy */
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;          /* subtle rounding */
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    }
+
+    .btn-notice:hover {
+    background-color: #2f3f52;   /* a bit lighter on hover */
+    }
+
+
+    .right-panel {
+      flex: 1;
+      background-color: #1e2a38;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 40px;
+    }
+    .right-panel h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .right-panel p {
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+      .right-panel {
+        padding: 40px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <!-- Left: placeholder card -->
+    <div class="left-panel">
+      <div class="card">
+        <h1>Login</h1>
+        <div class="message">
+          Rest of functionality will be implemented soon 🚧
+        </div>
+        <a href="register.php" class="btn-notice">Go to Sign Up</a>
+      </div>
+    </div>
+
+    <!-- Right: info panel (same as registration) -->
+    <div class="right-panel">
+      <h2>Welcome to MediBook!<br />Join Now for Easy Doctor Appointments</h2>
+      <p>
+        Find and book appointments with the best doctors in your area.
+        Manage your health records and get reminders for upcoming
+        consultations.
+      </p>
+    </div>
+  </div>
 </body>
 </html>
