@@ -1,196 +1,13 @@
-<!-- <?php
-session_start();
-include("php/config.php");
-
-// Unified message renderer (same style as registration page)
-function renderMessagePage($type, $message, $buttonText, $buttonLink) {
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Status</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Poppins', sans-serif;
-                background: linear-gradient(135deg, #71b7e6, #9b59b6);
-                height: 100vh;
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            .card {
-                background: rgba(255, 255, 255, 0.15);
-                backdrop-filter: blur(10px);
-                border: none;
-                border-radius: 15px;
-                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-                text-align: center;
-                padding: 2rem;
-                max-width: 400px;
-                width: 100%;
-            }
-            .btn {
-                border-radius: 50px;
-                padding: 0.75rem 1.5rem;
-                font-weight: 600;
-            }
-            .btn-success {
-                background: linear-gradient(135deg, #11998e, #38ef7d);
-                border: none;
-                color: #fff;
-                transition: background 0.3s ease;
-            }
-            .btn-success:hover { background: linear-gradient(135deg, #38ef7d, #11998e); }
-            .btn-danger {
-                background: linear-gradient(135deg, #cb2d3e, #ef473a);
-                border: none;
-                color: #fff;
-                transition: background 0.3s ease;
-            }
-            .btn-danger:hover { background: linear-gradient(135deg, #ef473a, #cb2d3e); }
-            .message {
-                color: #fff;
-                margin-bottom: 1.5rem;
-                font-size: 1.25rem;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="card">
-            <div class="message alert alert-<?= $type ?>" role="alert" style="background: transparent; border: none; padding: 0;">
-                <?= $message ?>
-            </div>
-            <a href="<?= $buttonLink ?>" class="btn btn-<?= $type ?>"><?= $buttonText ?></a>
-        </div>
-    </body>
-    </html>
-    <?php
-    exit;
-}
-
-if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($con, $_POST['email']);
-    $password = mysqli_real_escape_string($con, $_POST['password']);
-
-    // verify credentials
-    $result = mysqli_query($con, "SELECT * FROM users WHERE Email='$email'") or die("Select Error: " . mysqli_error($con));
-    $user = mysqli_fetch_assoc($result);
-    if ($user && password_verify($password, $user['Password'])) {
-        // valid login
-        $_SESSION['valid'] = $user['Email'];
-        $_SESSION['username'] = $user['Username'];
-        $_SESSION['age'] = $user['Age'];
-        $_SESSION['id'] = $user['Id'];
-        header("Location: home.php");
-        exit;
-    } else {
-        renderMessagePage('danger', 'Wrong Email or Password', 'Go Back', 'index.php');
-    }
-}
-
-// If no POST or after redirect, show form
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>MediBook - Healthcare Appointment System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papO..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 2rem;
-            max-width: 400px;
-            width: 100%;
-        }
-        .card header {
-            font-size: 1.75rem;
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .form-control {
-            background: rgba(255,255,255,0.25);
-            border: none;
-            border-radius: 10px;
-            padding: 0.8rem 1rem;
-            color: #fff;
-        }
-        .form-control:focus { background: rgba(255,255,255,0.35); box-shadow: none; color: #fff; }
-        .input-group-text { background: transparent; border: none; color: #fff; }
-        .btn-primary {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border: none;
-            border-radius: 50px;
-            padding: 0.75rem;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 1rem;
-        }
-        .btn-primary:hover { background: linear-gradient(135deg, #2575fc, #6a11cb); }
-        .links { text-align: center; margin-top: 1rem; }
-        .links a { color: #fff; text-decoration: underline; }
-        .links a:hover { color: #ddd; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <header>Login</header>
-        <form action="" method="post" novalidate>
-            <div class="mb-3 input-group">
-                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                <input type="email" name="email" class="form-control" placeholder="Email" required autocomplete="off">
-            </div>
-            <div class="mb-3 input-group">
-                <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off">
-            </div>
-            <button type="submit" name="submit" class="btn btn-primary">Login</button>
-        </form>
-        <div class="links"><small class="text-white">Don't have an account? <a href="register.php">Sign Up Now</a></small></div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> -->
-
-<!-- new design starts-->
-
-<!-- <?php
-// session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - MediBook</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             font-family: 'Poppins', sans-serif;
@@ -199,235 +16,223 @@ if (isset($_POST['submit'])) {
             margin: 0;
             padding: 0;
             background-color: #f5f7fa;
+            color: #1e2a38;
         }
-        .main-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        .form-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 60px 40px;
+        .navbar {
             background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
         }
-        .form-container h2 {
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1e2a38;
+        }
+        .navbar-brand span {
+            color: #0d6efd;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #1e2a38 0%, #2f3f52 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #cbd5e1;
+        }
+        .login-options {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: -80px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+        .login-card {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .login-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+        .login-card h3 {
             font-weight: 600;
+            margin-bottom: 15px;
         }
-        .form-container p {
+        .login-card p {
             color: #6c757d;
+            margin-bottom: 25px;
         }
-        .form-control {
-            border-radius: 8px;
-            padding: 10px 15px;
-        }
-        .form-container button {
+        .btn-login {
             background-color: #1e2a38;
             color: white;
-            padding: 12px;
+            padding: 12px 30px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             transition: background 0.3s ease;
         }
-        .form-container button:hover {
+        .btn-login:hover {
             background-color: #2f3f52;
         }
-        .info-panel {
-            flex: 1;
-            background-color: #1e2a38;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 60px 40px;
+        .features-section {
+            padding: 80px 0;
         }
-        .info-panel h2 {
-            font-weight: 600;
-            font-size: 1.75rem;
-        }
-        .info-panel p {
-            color: #cbd5e1;
-            margin-top: 1rem;
-        }
-        .form-footer {
+        .feature-card {
             text-align: center;
-            margin-top: 1rem;
+            padding: 30px 20px;
         }
-        .form-footer a {
+        .feature-icon {
+            font-size: 2.5rem;
             color: #0d6efd;
+            margin-bottom: 20px;
+        }
+        .feature-card h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .feature-card p {
+            color: #6c757d;
+        }
+        .footer {
+            background-color: #1e2a38;
+            color: #cbd5e1;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #fff;
             text-decoration: none;
         }
-        .form-footer a:hover {
+        .footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- Left form section -->
-        <!-- <div class="form-container">
-            <h2>Welcome Back</h2>
-            <p>Please login to your account</p>
-            <form action="login_process.php" method="POST">
-                <div class="mb-3 mt-4">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="mb-4">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="w-100">Sign In</button>
-            </form>
-            <div class="form-footer">
-                Don't have an account? <a href="register.php">Sign Up</a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">Medi<span>Book</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
 
-        <!-- Right info panel -->
-        <!-- <div class="info-panel">
-            <h2>Welcome To MediBook! Join Now For Easy Doctor Appointments</h2>
-            <p>
-                Find and book appointments with the best doctors in your area. 
-                Manage your health records and get reminders for upcoming consultations.
-            </p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Healthcare Made Simple</h1>
+            <p>Find and book appointments with the best doctors in your area. Manage your health records and get reminders for upcoming consultations.</p>
         </div>
-    </div>
-</body>
-</html> --> --> -->
+    </section>
 
-
-<!-- new design ends -->
-<?php
-// Placeholder Login Page with upcoming functionality notice
-session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Login Coming Soon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    * {
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f5f7fa;
-    }
-    .main {
-      display: flex;
-      min-height: 100vh;
-    }
-    .left-panel {
-      flex: 1;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card {
-      max-width: 380px;
-      width: 100%;
-      text-align: center;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .card h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .card .message {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 2rem;
-    }
-    .btn-notice {
-    display: block;              /* full width */
-    width: 100%;
-    padding: 0.75rem;            /* vertical padding */
-    background-color: #1e2a38;   /* dark navy */
-    color: #fff;
-    font-weight: 600;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;          /* subtle rounding */
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-    }
-
-    .btn-notice:hover {
-    background-color: #2f3f52;   /* a bit lighter on hover */
-    }
-
-
-    .right-panel {
-      flex: 1;
-      background-color: #1e2a38;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px 40px;
-    }
-    .right-panel h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .right-panel p {
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-      .main {
-        flex-direction: column;
-      }
-      .right-panel {
-        padding: 40px;
-        text-align: center;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="main">
-    <!-- Left: placeholder card -->
-    <div class="left-panel">
-      <div class="card">
-        <h1>Login</h1>
-        <div class="message">
-          Rest of functionality will be implemented soon 🚧
+    <!-- Login Options -->
+    <section class="container">
+        <div class="login-options">
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="login-card">
+                        <div class="login-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h3>Patient Login</h3>
+                        <p>Access your account to book appointments and manage your health records</p>
+                        <a href="patientLogin.php" class="btn btn-login">Login as Patient</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="login-card">
+                        <div class="login-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Admin Login</h3>
+                        <p>Secure access for administrators to manage the system and providers</p>
+                        <a href="login.php" class="btn btn-login">Login as Admin</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="register.php" class="btn-notice">Go to Sign Up</a>
-      </div>
-    </div>
+    </section>
 
-    <!-- Right: info panel (same as registration) -->
-    <div class="right-panel">
-      <h2>Welcome to MediBook!<br />Join Now for Easy Doctor Appointments</h2>
-      <p>
-        Find and book appointments with the best doctors in your area.
-        Manage your health records and get reminders for upcoming
-        consultations.
-      </p>
-    </div>
-  </div>
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose MediBook?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h4>Easy Appointments</h4>
+                        <p>Book appointments with doctors instantly without any hassle</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <h4>Digital Health Records</h4>
+                        <p>Access your medical history and reports anytime, anywhere</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>Appointment Reminders</h4>
+                        <p>Get timely notifications about your upcoming consultations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Contact Us</h4>
+                    <p>Email: support@medibook.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>&copy; 2025 MediBook. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
