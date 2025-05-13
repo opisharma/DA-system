@@ -390,7 +390,7 @@ if (isset($_POST['submit'])) {
                         <button type="submit" name="submit" class="btn btn-primary">Sign in</button>
                         
                         <div class="sign-in-link">
-                            Already have an account? <a href="index.php">Sign In</a>
+                            Already have an account? <a href="login.php">Sign In</a>
                         </div>
                     </form>
                 </div>
