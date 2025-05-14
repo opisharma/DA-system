@@ -172,16 +172,16 @@ if (!isset($_SESSION['valid'])) {
             
             <!-- Search Form -->
             <form class="search-form" action="" method="post">
-                <input type="text" name="name" placeholder="Search Doctor by Name" class="form-control">
+                <input type="text" name="Specialization" placeholder="Search Doctor by Specialization" class="form-control">
                 <button type="submit" class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
             
             <!-- Doctors Cards -->
             <div class="doctor-cards">
                 <?php
-                if(isset($_POST['name'])){
-                    $name = $_POST['name'];
-                    $query = mysqli_query($con, "SELECT * FROM doctors WHERE Name LIKE '%$name%'");
+                if(isset($_POST['Specialization'])){
+                    $Specialization = $_POST['Specialization'];
+                    $query = mysqli_query($con, "SELECT * FROM doctors WHERE Specialization LIKE '%$Specialization%'");
                     $doctors = mysqli_fetch_all($query, MYSQLI_ASSOC);
                     
                     if(count($doctors) == 0){
