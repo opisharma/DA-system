@@ -172,8 +172,8 @@
                     $res_id = $result['AppointmentId'];
                 }
                 
-                echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
-                echo "<a href='doctor.php'><button class='btn-icon'><i class='fa-solid fa-hospital-user'></i></button></a>";
+                // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
+                echo "<a href='doctor.php'><button class='btn btn-dark'></i>Doctor</button></a>";
                 echo "<a href='php/logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
             </div>
