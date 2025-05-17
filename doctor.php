@@ -185,7 +185,8 @@ if (!isset($_SESSION['valid'])) {
                     $res_id = $result['Id'];
                 }
                 
-                echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
+                // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
+                echo "<a href='create_doctor.php'><button class='btn btn-dark mx-3'>Create Doctor</button></a>";
                 echo "<a href='appointment.php'><button class='btn btn-dark'>Appointments</button></a>";
                 echo "<a href='logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
