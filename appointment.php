@@ -1,10 +1,64 @@
-<?php 
-   session_start();
+<?php
+session_start();
 
-   include("database/config.php");
-   if(!isset($_SESSION['valid'])){
+// Show all errors for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include("database/config.php");
+if (!isset($_SESSION['valid'])) {
     header("Location: patientLogin.php");
-   }
+    exit();
+}
+
+// Handle search filters
+$where = [];
+$params = [];
+$types = "";
+
+if (!empty($_POST['name'])) {
+    $where[] = "D.Name LIKE ?";
+    $params[] = '%' . trim($_POST['name']) . '%';
+    $types .= 's';
+}
+if (!empty($_POST['date'])) {
+    $where[] = "A.AppointmentDate = ?";
+    $params[] = trim($_POST['date']);  // YYYY-MM-DD format
+    $types .= 's';
+}
+
+// Build SQL query
+$sql = "
+    SELECT
+        A.AppointmentID,
+        A.PatientName,
+        A.PatientPhone,
+        D.Name AS DoctorName,
+        A.SerialNo,
+        A.AppointmentDate,
+        A.AppointmentTime
+    FROM
+        appointments A
+    JOIN
+        doctors D ON A.DoctorID = D.DoctorID
+";
+if (count($where) > 0) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+}
+//order by appointment date and serial number
+$sql .= " ORDER BY A.AppointmentDate DESC, A.SerialNo ASC";
+
+$stmt = $con->prepare($sql);
+if (!$stmt) {
+    die("Prepare failed: " . $con->error);
+}
+if (count($params) > 0) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+$appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,9 +161,6 @@
         .search-form button:hover {
             background-color: #0d6efd;
         }
-        .table {
-            margin-top: 20px;
-        }
         .table th {
             font-weight: 600;
             color: #1e2a38;
@@ -156,52 +207,42 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="home.php">Medi<span>Book</span></a>
-            
             <div class="ms-auto d-flex align-items-center">
-                <?php 
-                $id = $_SESSION['id'];
-                $query = mysqli_query($con, "SELECT * FROM users WHERE Id=$id");
-
-                while($result = mysqli_fetch_assoc($query)){
-                    $res_Uname = $result['Username'];
-                    $res_Age = $result['Age'];
-                    $res_id = $result['AppointmentId'];
+                <?php
+                $res_Uname = '';
+                if (isset($_SESSION['id'])) {
+                    $id = (int)$_SESSION['id'];
+                    $q = mysqli_query($con, "SELECT Username FROM users WHERE Id={$id}");
+                    if ($q && $user = mysqli_fetch_assoc($q)) {
+                        $res_Uname = $user['Username'];
+                    }
                 }
-                
-                // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
-                echo "<a href='doctor.php'><button class='btn btn-dark'></i>Doctor</button></a>";
+                echo "<a href='doctor.php' class='btn btn-dark me-3'>Doctor</a>";
                 echo "<a href='logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- Welcome Box -->
         <div class="welcome-box">
             <div class="welcome-message">
-                Hello <b><?php echo $res_Uname ?></b>, Welcome
+                Hello <b><?php echo htmlspecialchars($res_Uname); ?></b>, Welcome
             </div>
             <a href="create_appointment.php" class="btn btn-primary">Create An Appointment</a>
         </div>
 
-        <!-- Appointments Box -->
         <div class="appointments-box">
             <h2>Appointments</h2>
-            
-            <!-- Search Form -->
             <form class="search-form" action="" method="post">
-                <input type="date" name="date" class="form-control">
-                <input type="text" name="name" placeholder="Doctor Name" class="form-control">
+                <?php $dateVal = $_POST['date'] ?? ''; $nameVal = $_POST['name'] ?? ''; ?>
+                <input type="date" name="date" class="form-control" value="<?php echo htmlspecialchars($dateVal); ?>">
+                <input type="text" name="name" placeholder="Doctor Name" class="form-control" value="<?php echo htmlspecialchars($nameVal); ?>">
                 <button type="submit" class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            
-            <!-- Appointments Table -->
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -217,60 +258,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        if(isset($_POST['name']) || isset($_POST['date'])){
-                            $name = $_POST['name'] ?? "";
-                            $date = $_POST['date'] ?? "";
-
-                            $query = mysqli_query($con, "SELECT 
-                                A.AppointmentID,
-                                A.patientName,
-                                A.PatientPhone,
-                                D.Name,
-                                A.SerialNo,
-                                A.AppointmentDate,
-                                A.AppointmentTime
-                            FROM
-                                appointments A
-                            JOIN
-                                Doctors D ON A.DoctorID = D.DoctorID
-                            WHERE
-                                D.Name = '$name' OR A.AppointmentDate = '$date';");
-                            
-                            $appointments = mysqli_fetch_all($query, MYSQLI_ASSOC);
-                        } else {
-                            $query = mysqli_query($con, "SELECT 
-                                A.AppointmentID,
-                                A.PatientName,
-                                A.PatientPhone,
-                                D.Name,
-                                A.SerialNo,
-                                A.AppointmentDate,
-                                A.AppointmentTime
-                            FROM 
-                                appointments A
-                            JOIN 
-                                doctors D ON A.DoctorID = D.DoctorID;");
-                            $appointments = mysqli_fetch_all($query, MYSQLI_ASSOC);
-                        }
-
-                        foreach ($appointments as $appointment) {
-                            echo "<tr>";
-                            echo "<td>{$appointment['AppointmentID']}</td>";
-                            echo "<td>{$appointment['PatientName']}</td>";
-                            echo "<td>{$appointment['PatientPhone']}</td>";
-                            echo "<td>{$appointment['Name']}</td>";
-                            echo "<td>{$appointment['SerialNo']}</td>";
-                            echo "<td>{$appointment['AppointmentDate']}</td>";
-                            echo "<td>{$appointment['AppointmentTime']}</td>";
-                    
-                            echo "<td>";
-                            echo "<a href='update.php?id={$appointment['AppointmentID']}' class='action-btn btn-edit'><i class='fa-solid fa-pen-to-square'></i></a>";
-                            echo "<a href='delete.php?id={$appointment['AppointmentID']}' class='action-btn btn-delete' onclick='return confirm(\"Are you sure you want to delete this appointment?\");'><i class='fa-solid fa-trash'></i></a>";
-                            echo "</td>";
-                            echo "</tr>";
-                        }
-                        ?>
+                        <?php if (!empty($appointments)): foreach ($appointments as $appointment): ?>
+                            <tr>
+                                <td><?php echo $appointment['AppointmentID']; ?></td>
+                                <td><?php echo htmlspecialchars($appointment['PatientName']); ?></td>
+                                <td><?php echo htmlspecialchars($appointment['PatientPhone']); ?></td>
+                                <td><?php echo htmlspecialchars($appointment['DoctorName']); ?></td>
+                                <td><?php echo $appointment['SerialNo']; ?></td>
+                                <td><?php echo $appointment['AppointmentDate']; ?></td>
+                                <td><?php echo $appointment['AppointmentTime']; ?></td>
+                                <td>
+                                    <a href="update.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="delete.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this appointment?');"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; else: ?>
+                            <tr><td colspan="8" class="text-center">No appointments found.</td></tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
