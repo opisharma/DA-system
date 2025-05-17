@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="email" name="Email" id="Email" class="form-control" value="<?php echo isset($_POST['Email']) ? htmlspecialchars($_POST['Email']) : ''; ?>">
                 </div>
                 <div class="d-flex justify-content-end">
-                    <a href="doctors.php" class="btn btn-secondary btn-back">Cancel</a>
+                    <a href="doctor.php" class="btn btn-secondary btn-back">Cancel</a>
                     <button type="submit" class="btn btn-primary">Save Doctor</button>
                 </div>
             </form>
