@@ -229,6 +229,9 @@ if (!isset($_SESSION['valid'])) {
                     <p class="specialization"><?php echo $doctor['Specialization']; ?></p>
                     <p class="contact-info"><i class="fas fa-phone"></i> <?php echo $doctor['ContactNumber']; ?></p>
                     <p class="contact-info"><i class="fas fa-envelope"></i> <?php echo $doctor['Email']; ?></p>
+                    <?php
+                    echo "<a href='delete_doctor.php?id={$doctor['DoctorID']}' class='btn btn-danger' style='color: light; text-decoration: none;'>Delete</a>";
+                    ?>
                 </div>
                 <?php } ?>
             </div>
