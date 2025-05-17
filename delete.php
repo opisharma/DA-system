@@ -1,53 +1,55 @@
 <?php
 session_start();
-include("database/config.php");
 
-if(!isset($_SESSION['valid'])){
-    header("Location: login.php");
+// Show all errors for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include("database/config.php");
+if (!isset($_SESSION['valid'])) {
+    header("Location: patientLogin.php");
     exit();
 }
 
-if(isset($_GET['id']) && !empty($_GET['id'])) {
-    $appointmentID = mysqli_real_escape_string($con, $_GET['id']);
-    
-    // Get doctor ID and appointment date for serial number recalculation
-    $appointmentQuery = mysqli_query($con, "SELECT DoctorID, AppointmentDate FROM appointments WHERE AppointmentID = '$appointmentID'");
-    
-    if(mysqli_num_rows($appointmentQuery) > 0) {
-        $appointmentData = mysqli_fetch_assoc($appointmentQuery);
-        $doctorID = $appointmentData['DoctorID'];
-        $appointmentDate = $appointmentData['AppointmentDate'];
-        
-        // Delete the appointment
-        $deleteQuery = "DELETE FROM appointments WHERE AppointmentID = '$appointmentID'";
-        
-        if(mysqli_query($con, $deleteQuery)) {
-            // Update serial numbers for remaining appointments on the same day with the same doctor
-            $updateQuery = "UPDATE appointments SET 
-                            SerialNo = (
-                                SELECT @row_number:=@row_number+1 
-                                FROM (SELECT @row_number:=0) AS t
-                            )
-                            WHERE DoctorID = '$doctorID' 
-                            AND AppointmentDate = '$appointmentDate'
-                            ORDER BY AppointmentTime";
-            
-            // Execute update query
-            mysqli_query($con, $updateQuery);
-            
-            // Redirect to home page
-            header("Location: home.php");
-            exit();
-        } else {
-            echo "Error deleting appointment: " . mysqli_error($con);
-            echo "<br><a href='home.php'>Go Back to Home</a>";
-        }
-    } else {
-        echo "Appointment not found.";
-        echo "<br><a href='home.php'>Go Back to Home</a>";
-    }
-} else {
-    header("Location: home.php");
+// Validate appointment ID
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: appointment.php");
     exit();
+}
+$appointmentId = (int)$_GET['id'];
+
+// Prepare delete statement
+$deleteSql = "DELETE FROM appointments WHERE AppointmentID = ?";
+$stmt = $con->prepare($deleteSql);
+if (!$stmt) {
+    die("Prepare failed: " . $con->error);
+}
+$stmt->bind_param('i', $appointmentId);
+
+// Execute and redirect
+if ($stmt->execute()) {
+    header("Location: appointment.php?msg=deleted");
+    exit();
+} else {
+    // On failure, display error and back link
+    $error = "Delete failed: " . $con->error;
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Delete Appointment</h2>
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+        <a href="appointment.php" class="btn btn-secondary">Back to Appointments</a>
+    <?php endif; ?>
+</div>
+</body>
+</html>
