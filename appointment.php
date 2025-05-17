@@ -209,7 +209,7 @@ $appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="home.php">Medi<span>Book</span></a>
+            <a class="navbar-brand" href="appointment.php">Medi<span>Book</span></a>
             <div class="ms-auto d-flex align-items-center">
                 <?php
                 $res_Uname = '';
