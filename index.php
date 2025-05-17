@@ -226,7 +226,7 @@
                 <div class="col-md-12">
                     <h4>Contact Us</h4>
                     <p>Email: support@medibook.com</p>
-                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Phone: 01830540932</p>
                     <p>&copy; 2025 MediBook. All rights reserved.</p>
                 </div>
             </div>
