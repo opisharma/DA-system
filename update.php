@@ -9,7 +9,7 @@
 
    // Check if ID is provided
    if(!isset($_GET['id']) || empty($_GET['id'])) {
-       header("Location: home.php");
+       header("Location: appointment.php");
        exit();
    }
 
@@ -33,7 +33,7 @@
         A.AppointmentID = '$appointmentID'");
    
    if(mysqli_num_rows($query) == 0) {
-       header("Location: home.php");
+       header("Location: appointment.php");
        exit();
    }
    
@@ -150,7 +150,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="home.php">Medi<span>Book</span></a>
+            <a class="navbar-brand" href="appointment.php">Medi<span>Book</span></a>
             
             <div class="ms-auto d-flex align-items-center">
                 <?php 
@@ -163,8 +163,8 @@
                     $res_id = $result['Id'];
                 }
                 
-                echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
-                echo "<a href='doctor.php'><button class='btn-icon'><i class='fa-solid fa-hospital-user'></i></button></a>";
+                // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
+                // echo "<a href='doctor.php'><button class='btn-icon'><i class='fa-solid fa-hospital-user'></i></button></a>";
                 echo "<a href='php/logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
             </div>
@@ -214,7 +214,7 @@
                 </div>
                 
                 <div class="d-flex justify-content-between">
-                    <a href="home.php" class="btn btn-secondary">Cancel</a>
+                    <a href="appointment.php" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update Appointment</button>
                 </div>
             </form>
