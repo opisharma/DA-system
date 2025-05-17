@@ -230,7 +230,14 @@ if (!isset($_SESSION['valid'])) {
                     <p class="contact-info"><i class="fas fa-phone"></i> <?php echo $doctor['ContactNumber']; ?></p>
                     <p class="contact-info"><i class="fas fa-envelope"></i> <?php echo $doctor['Email']; ?></p>
                     <?php
-                    echo "<a href='delete_doctor.php?id={$doctor['DoctorID']}' class='btn btn-danger' style='color: light; text-decoration: none;'>Delete</a>";
+                        echo "<a 
+                                href='delete_doctor.php?id={$doctor['DoctorID']}' 
+                                class='btn btn-danger' 
+                                style='color: light; text-decoration: none;'
+                                onclick=\"return confirm('Are you sure you want to delete this doctor?');\"
+                            >
+                                Delete
+                            </a>";
                     ?>
                 </div>
                 <?php } ?>
