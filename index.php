@@ -209,10 +209,10 @@
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-user-md"></i>
                         </div>
-                        <h4>Appointment Reminders</h4>
-                        <p>Get timely notifications about your upcoming consultations</p>
+                        <h4>Doctors List</h4>
+                        <p>Get all specialized Doctors here.</p>
                     </div>
                 </div>
             </div>
