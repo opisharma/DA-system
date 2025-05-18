@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
   <div class="main-container">
+    
     <div class="form-container">
       <h2>Welcome Back</h2>
       <p>Please login to your account</p>

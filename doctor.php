@@ -210,6 +210,7 @@ if (!isset($_SESSION['valid'])) {
             <!-- Doctors Cards -->
             <div class="doctor-cards">
                 <?php
+                //search by specialization
              if (isset($_GET['Specialization']) && !empty($_GET['Specialization'])) {
     $Specialization = mysqli_real_escape_string($con, $_GET['Specialization']);
     $query = mysqli_query($con, "SELECT * FROM doctors WHERE Specialization LIKE '%$Specialization%'");
