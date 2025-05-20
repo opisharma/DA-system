@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $row['Username'];
             $_SESSION['age']      = $row['Age'];
             $_SESSION['id']       = $row['id'];
-            header("Location: appointment.php");
+            header("Location: appointment_p_v.php");
             exit;
         } else {
             $error = 'Invalid email or password.';
