@@ -186,7 +186,7 @@ if (!isset($_SESSION['valid'])) {
                 }
                 
                 // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
-                echo "<a href='create_doctor.php'><button class='btn btn-dark mx-3'>Create Doctor</button></a>";
+                // echo "<a href='create_doctor.php'><button class='btn btn-dark mx-3'>Create Doctor</button></a>";
                 echo "<a href='appointment.php'><button class='btn btn-dark'>Appointments</button></a>";
                 echo "<a href='logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
@@ -230,7 +230,7 @@ if (!isset($_SESSION['valid'])) {
                     <p class="specialization"><?php echo $doctor['Specialization']; ?></p>
                     <p class="contact-info"><i class="fas fa-phone"></i> <?php echo $doctor['ContactNumber']; ?></p>
                     <p class="contact-info"><i class="fas fa-envelope"></i> <?php echo $doctor['Email']; ?></p>
-                  <div class="d-flex">
+                  <!-- <div class="d-flex">
                     <a href="edit_doctor.php?id=<?= $doctor['DoctorID'] ?>" class="btn btn-warning me-2">
                         <i class="fa-solid fa-pen-to-square"></i> Edit
                     </a>
@@ -238,7 +238,7 @@ if (!isset($_SESSION['valid'])) {
                         onclick="return confirm('Are you sure you want to delete this doctor?');">
                         <i class="fa-solid fa-trash"></i> Delete
                     </a>
-                  </div>
+                  </div> -->
                 </div>
                 <?php } ?>
             </div>
