@@ -12,9 +12,10 @@ if (!isset($_SESSION['valid'])) {
 }
 
 // Handle search filters
-$where = [];
-$params = [];
-$types = "";
+$userId = (int)$_SESSION['id'];  
+$where  = ["A.UserId = ?"];      
+$params = [$userId];            
+$types  = "i";  
 
 if (!empty($_POST['name'])) {
     $where[] = "D.Name LIKE ?";
@@ -209,7 +210,7 @@ $appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="appointment.php">Medi<span>Book</span></a>
+            <a class="navbar-brand" href="appointment_p_v.php">Medi<span>Book</span></a>
             <div class="ms-auto d-flex align-items-center">
                 <?php
                 $res_Uname = '';
@@ -232,7 +233,7 @@ $appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
             <div class="welcome-message">
                 Hello <b><?php echo htmlspecialchars($res_Uname); ?></b>, Welcome
             </div>
-            <a href="create_appointment.php" class="btn btn-primary">Create An Appointment</a>
+            <a href="create_appointment_p_v.php" class="btn btn-primary">Create An Appointment</a>
         </div>
 
         <div class="appointments-box">
@@ -268,8 +269,8 @@ $appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                                 <td><?php echo $appointment['AppointmentDate']; ?></td>
                                 <td><?php echo $appointment['AppointmentTime']; ?></td>
                                 <td>
-                                    <a href="update.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="delete.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this appointment?');"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="update_p_v.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="delete_p_v.php?id=<?php echo $appointment['AppointmentID']; ?>" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this appointment?');"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; else: ?>
