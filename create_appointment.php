@@ -150,6 +150,7 @@
     <div class="container">
         <div class="box form-box">
             <?php 
+            session_start();
              include("database/config.php");
              if(isset($_POST['submit'])){
                 $username = $_POST['patientName'];
@@ -157,6 +158,7 @@
                 $phone = $_POST['phone'];
                 $date = $_POST['Date'];
                 $time = $_POST['time'];
+                $userId = (int) $_SESSION['id']; 
 
                 // find total appointments of a doctor from a date
                 $data = mysqli_query($con,"SELECT COUNT(*) AS TotalAppointments FROM appointments WHERE DoctorID='$doctor' AND AppointmentDate='$date'") or die("Error Occurred");
@@ -173,7 +175,7 @@
                     exit();
                 }
                 
-                mysqli_query($con,"INSERT INTO appointments(patientName,PatientPhone,DoctorID,SerialNo,AppointmentDate,AppointmentTime) VALUES('$username','$phone','$doctor','$serialNo','$date','$time')") or die("Error Occurred");
+                mysqli_query($con,"INSERT INTO appointments(patientName,PatientPhone,DoctorID,SerialNo,AppointmentDate,AppointmentTime, UserId) VALUES('$username','$phone','$doctor','$serialNo','$date','$time', '$userId')") or die("Error Occurred");
 
                 echo "<div class='message'>
                           <p>Appointment successfully created!</p>
