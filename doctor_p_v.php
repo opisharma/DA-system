@@ -172,7 +172,7 @@ if (!isset($_SESSION['valid'])) {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="appointment.php">Medi<span>Book</span></a>
+            <a class="navbar-brand" href="appointment_p_v.php">Medi<span>Book</span></a>
 
             <div class="ms-auto d-flex align-items-center">
                 <?php
@@ -187,7 +187,7 @@ if (!isset($_SESSION['valid'])) {
                 
                 // echo "<a href='edit.php?Id=$res_id'><button class='btn-icon'><i class='fa-solid fa-user'></i></button></a>";
                 // echo "<a href='create_doctor.php'><button class='btn btn-dark mx-3'>Create Doctor</button></a>";
-                echo "<a href='appointment.php'><button class='btn btn-dark'>Appointments</button></a>";
+                echo "<a href='appointment_p_v.php'><button class='btn btn-dark'>Appointments</button></a>";
                 echo "<a href='logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
             </div>
