@@ -220,7 +220,7 @@ $appointments = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                         $res_Uname = $user['Username'];
                     }
                 }
-                echo "<a href='doctor.php' class='btn btn-dark me-3'>Doctor</a>";
+                echo "<a href='doctor_p_v.php' class='btn btn-dark me-3'>Doctor</a>";
                 echo "<a href='logout.php'><button class='btn-icon'><i class='fa-solid fa-right-from-bracket'></i></button></a>";
                 ?>
             </div>
