@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = mysqli_query(
         $con,
         "SELECT id, Username, Age, Email, Password
-         FROM users
+         FROM admin
          WHERE Email = '$email'"
     ) or die("DB error: " . mysqli_error($con));
 
