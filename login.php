@@ -65,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <div class="main-container">
     <div class="form-container">
-      <h2>Welcome Back</h2>
-      <p>Please login to your account</p>
+      <h2>Administrator Access</h2>
+      <p>Login to manage the system</p>
 
       <?php if ($error): ?>
         <div class="alert alert-danger alert-custom" role="alert"><?php echo htmlspecialchars($error); ?></div>
@@ -84,9 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <button type="submit" name="submit">Sign In</button>
       </form>
-      <div class="form-footer">
+      <!-- <div class="form-footer">
         Don't have an account? <a href="register.php">Sign Up</a>
-      </div>
+      </div> -->
     </div>
 
     <div class="info-panel">
