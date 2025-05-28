@@ -160,6 +160,35 @@
                 $time = $_POST['time'];
                 $userId = (int) $_SESSION['id']; 
 
+               // time slot validation
+                $checkSql = "
+                    SELECT COUNT(*) AS cnt
+                        FROM appointments
+                    WHERE DoctorID = '$doctor'
+                        AND ABS(
+                        TIMESTAMPDIFF(
+                            MINUTE,
+                            -- existing appointment datetime
+                            TIMESTAMP(CONCAT(AppointmentDate, ' ', AppointmentTime)),
+                            -- requested appointment datetime
+                            TIMESTAMP(CONCAT('$date',        ' ', '$time'))
+                        )
+                        ) <= 30
+                    ";
+                    $check = mysqli_query($con, $checkSql)
+                        or die("Error checking existing appointments: " . mysqli_error($con));
+                    $row = mysqli_fetch_assoc($check);
+
+                    if ($row['cnt'] > 0) {
+                        echo "<div class='message' style='background-color: #e74c3c;'>
+                                <p>Sorry! That time slot—or any slot within 30 minutes of it—is already booked for this doctor.</p>
+                            </div>";
+                        echo "<a href='appointment_p_v.php'><button class='btn'>Go Back</button>";
+                        exit();
+                    }
+
+
+
                 // find total appointments of a doctor from a date
                 $data = mysqli_query($con,"SELECT COUNT(*) AS TotalAppointments FROM appointments WHERE DoctorID='$doctor' AND AppointmentDate='$date'") or die("Error Occurred");
 
