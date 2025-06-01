@@ -387,10 +387,10 @@ if (isset($_POST['submit'])) {
                       <p id='error'></p>
                         
                         
-                        <button type="submit" name="submit" class="btn btn-primary">Sign in</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Register</button>
                         
                         <div class="sign-in-link">
-                            Already have an account? <a href="login.php">Sign In</a>
+                            Already have an account? <a href="patientLogin.php">Sign In</a>
                         </div>
                     </form>
                 </div>
