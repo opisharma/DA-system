@@ -31,6 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'A valid Email is required.';
     }
 
+    // Check if email already exists
+    if (empty($errors)) {
+        $checkEmail = mysqli_query($con, "SELECT 1 FROM doctors WHERE Email = '{$email}' LIMIT 1");
+        if ($checkEmail && mysqli_num_rows($checkEmail) > 0) {
+            $errors[] = 'This email is already registered for another doctor.';
+        }
+    }
+
     // If no errors, insert into database
     if (empty($errors)) {
         $sql = "INSERT INTO doctors (Name, Specialization, ContactNumber, Email) VALUES ('{$name}', '{$specialization}', '{$contact}', '{$email}')";
